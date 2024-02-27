@@ -30,7 +30,7 @@ To install ckanext-dcathr using ckan-docker:
 
 1. Clone _ckan-docker_ repository (skip if you already did)
 
-    https://github.com/josip555/ckanext-dcathr.git
+    https://github.com/ckan/ckan-docker
 
 2. Clone the source and install it on the virtualenv
 
