@@ -28,9 +28,9 @@ Values meaning:
 
 To install ckanext-dcathr using ckan-docker:
 
-1. Activate your CKAN virtual environment, for example:
+1. Clone _ckan-docker_ repository (skip if you already did)
 
-     . /usr/lib/ckan/default/bin/activate
+    https://github.com/josip555/ckanext-dcathr.git
 
 2. Clone the source and install it on the virtualenv
 
