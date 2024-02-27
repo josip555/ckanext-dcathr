@@ -1,0 +1,22 @@
+{% ckan_extends %}
+
+{% block extras %}
+  {% if pkg_dict.custom_text %}
+    <tr>
+      <th scope="row" class="dataset-label">{{ _("Custom Text") }}</th>
+      <td class="dataset-details">{{ pkg_dict.custom_text }}</td>
+    </tr>
+  {% endif %}
+
+  <div class="error-explanation alert alert-secondary">
+    {% asset 'dcathr/dcathr-validate-dataset' %}
+    <p id="validation-report"></p>
+    {% block validate_button %}
+      {% if pkg_dict.id and h.check_access('package_delete', {'id': pkg_dict.id}) and not pkg_dict.state == 'deleted' %}
+        <button class="btn btn-info" type="button" name="validate" data-module="dcathr-validate-dataset"
+          data-module-content="{{ h.dcathr_serialize_dataset(pkg_dict.id) }}">{% block validate_button_text %}{{ _('Validate
+          Dataset Schema') }}{% endblock %}</button>
+      {% endif %}
+    {% endblock %}
+  </div>
+{% endblock %}

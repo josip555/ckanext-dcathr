@@ -1,0 +1,13 @@
+dcathr-validate-dataset:
+  filter: rjsmin
+  contents:
+    - dcathr-validate-dataset.js
+  extra:
+    preload:
+      - base/main
+
+# dcathr-css:
+#   filter: cssrewrite
+#   output: ckanext-dcathr/%(version)s-dcathr.css
+#   contents:
+#     - css/dcathr.css
