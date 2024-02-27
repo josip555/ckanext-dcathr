@@ -41,7 +41,7 @@ To install ckanext-dcathr using ckan-docker:
 3. After successfuly starting CKAN in Docker using those steps and checking its page at localhost adress specified in .env file, shut down all CKAN containers in Docker.
 
 4. In your ckan-docker directory change setup/Dockerfile.dev file. Add following lines (if they're not already in there) below the first line(FROM ckan/ckan-dev:...):
-
+    ```dockerfile
     RUN pip3 install -e 'git+https://github.com/ckan/ckanext-harvest.git@master#egg=ckanext-harvest' && \
         pip3 install -r ${APP_DIR}/src/ckanext-harvest/pip-requirements.txt
     
@@ -60,6 +60,7 @@ To install ckanext-dcathr using ckan-docker:
 
     COPY setup/start_ckan_development.sh.override ${APP_DIR}/start_ckan_development.sh
     CMD ["bash", "/srv/app/start_ckan_development.sh"]
+    ```
 
 5. After that docker compose build ckan again, create a new dataset which you can use to test this extension. After creating new dataset go to the dataset's page and validation button should be visible. 
 
