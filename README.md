@@ -6,6 +6,8 @@ CKAN extension for metadata quality assurance by adding DCAT validation button a
 
 ## Requirements
 
+This extension requires another CKAN extension to be included, [CKAN + DCAT](https://github.com/ckan/ckanext-dcat) extension. That extension will be included in installation steps of this readme.
+
 Compatibility with core CKAN versions:
 
 | CKAN version    | Compatible?   |
@@ -32,24 +34,38 @@ To install ckanext-dcathr using ckan-docker:
 
     https://github.com/ckan/ckan-docker
 
-2. Clone the source and install it on the virtualenv
+2. Follow the instructions in ckan-docker README file to start CKAN in Development mode. 
 
-    git clone https://github.com/josip555/ckanext-dcathr.git
-    cd ckanext-dcathr
-    pip install -e .
-	pip install -r requirements.txt
+    https://github.com/ckan/ckan-docker?tab=readme-ov-file#4--install-build-and-run-ckan-plus-dependencies
 
-3. Add `dcathr` to the `ckan.plugins` setting in your CKAN
-   config file (by default the config file is located at
-   `/etc/ckan/default/ckan.ini`).
+3. After successfuly starting CKAN in Docker using those steps and checking its page at localhost adress specified in .env file, shut down all CKAN containers in Docker.
 
-4. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu:
+4. In your ckan-docker directory change setup/Dockerfile.dev file. Add following lines (if they're not already in there) below the first line(FROM ckan/ckan-dev:...):
 
-     sudo service apache2 reload
+    RUN pip3 install -e 'git+https://github.com/ckan/ckanext-harvest.git@master#egg=ckanext-harvest' && \
+        pip3 install -r ${APP_DIR}/src/ckanext-harvest/pip-requirements.txt
+    
+    RUN  pip3 install setuptools==57.0.0 --force-reinstall
+    RUN  pip3 install wheel==0.36.2 --force-reinstall
+    RUN  pip3 uninstall comtypes --yes
+    RUN  pip3 install --no-cache-dir comtypes
+
+    RUN pip install -e git+https://github.com/ckan/ckanext-dcat.git#egg=ckanext-dcat
+    RUN pip install -r /srv/app/src/ckanext-dcat/requirements.txt
+
+    RUN pip install -e git+https://github.com/josip555/ckanext-dcathr#egg=ckanext-dcathr
+    RUN pip install -r /srv/app/src/ckanext-dcathr/requirements.txt
+
+    RUN apk add --no-cache bash
+
+    COPY setup/start_ckan_development.sh.override ${APP_DIR}/start_ckan_development.sh
+    CMD ["bash", "/srv/app/start_ckan_development.sh"]
+
+5. After that docker compose build ckan again, create a new dataset which you can use to test this extension. After creating new dataset go to the dataset's page and validation button should be visible. 
 
 ### Without ckan-docker (not tested)
 
-To install ckanext-dcathr using ckan-docker:
+To install ckanext-dcathr without ckan-docker (make sure CKAN + DCAT extension is already successfully added):
 
 1. Activate your CKAN virtual environment, for example:
 
