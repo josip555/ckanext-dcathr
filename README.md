@@ -64,6 +64,8 @@ To install ckanext-dcathr using ckan-docker:
 
 5. After that docker compose build ckan again, create a new dataset which you can use to test this extension. After creating new dataset go to the dataset's page and validation button should be visible. 
 
+![Validation Button Screenshot](https://raw.githubusercontent.com/josip555/ckanext-dcathr/main/validation-button-screen.png)
+
 ### Without ckan-docker (not tested)
 
 To install ckanext-dcathr without ckan-docker (make sure CKAN + DCAT extension is already successfully added):
